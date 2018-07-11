@@ -17,6 +17,14 @@ module LinkedList = {
     | _ => raise(Invalid_argument("Length below 0"))
     };
 
+  let rec iter = (fn: 'a => unit, linked_list) =>
+    switch (linked_list) {
+    | Empty => (() => ())
+    | Node(head, rest) =>
+      fn(head);
+      iter(fn, rest);
+    };
+
   let data = linked_list =>
     switch (linked_list) {
     | Empty => raise(Not_found)
@@ -47,5 +55,8 @@ print_endline(string_of_int(LinkedList.data(next_node)));
 let next_node_2 = LinkedList.next(next_node);
 print_endline(string_of_int(LinkedList.data(next_node_2)));
 
-let next_node_3 = LinkedList.next(next_node_2);
-print_endline(string_of_int(LinkedList.data(next_node_3)));
+/* let next_node_3 = LinkedList.next(next_node_2); */
+/* print_endline(string_of_int(LinkedList.data(next_node_3))); */
+
+print_endline("Iterate over the linked list");
+LinkedList.iter(item => print_endline(string_of_int(item)), linked_list);
